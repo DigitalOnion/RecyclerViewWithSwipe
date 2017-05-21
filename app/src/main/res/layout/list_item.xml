@@ -9,6 +9,10 @@
         android:id="@+id/txtName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="32dp"
+        android:layout_marginBottom="3dp"
+        android:background="#f4f755"
         android:text="@string/bogus_text"/>
 
 </LinearLayout>

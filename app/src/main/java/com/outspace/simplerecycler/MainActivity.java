@@ -1,13 +1,17 @@
 package com.outspace.simplerecycler;
 
+import android.content.ClipData;
+import android.graphics.Canvas;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,7 +37,12 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView recycler = (RecyclerView) findViewById(R.id.recycler);
         recycler.setLayoutManager(new LinearLayoutManager(this));
-        recycler.setAdapter(new MyAdapter(data));
+        MyAdapter adapter = new MyAdapter(data);
+        recycler.setAdapter(adapter);
+
+        ItemTouchHelper.SimpleCallback itemTochHelperSimpleCallback = getItemTochHelperSimpleCallback(adapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTochHelperSimpleCallback);
+        itemTouchHelper.attachToRecyclerView(recycler);
     }
 
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
@@ -70,4 +79,41 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    ItemTouchHelper.SimpleCallback getItemTochHelperSimpleCallback(MyAdapter adapter) {
+
+        // check on the swipeDirections, they could be ored - up like: ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT
+        ItemTouchHelper.SimpleCallback callback =
+                new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+                    @Override
+                    public boolean onMove(RecyclerView recyclerView,
+                                          RecyclerView.ViewHolder viewHolder,
+                                          RecyclerView.ViewHolder target) {
+                        return false;
+                    }
+
+                    @Override
+                    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                        int position = viewHolder.getAdapterPosition();
+
+                        if (direction == ItemTouchHelper.LEFT){
+                            Toast.makeText(getApplicationContext(), "Left", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "Right", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+
+                    }
+                };
+
+        return callback;
+    }
+
+
 }
