@@ -6,4 +6,5 @@ package com.outspace.simplerecycler;
 
 public class DataItem {
     public String name;
+    public boolean showActions;
 }

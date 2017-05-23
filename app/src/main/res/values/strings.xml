@@ -2,4 +2,6 @@
     <string name="app_name">SimpleRecycler</string>
     <string name="intro">RecyclerView example</string>
     <string name="bogus_text">Bogus example</string>
+    <string name="btn_some_action">Some</string>
+    <string name="btn_another_action">Other</string>
 </resources>
